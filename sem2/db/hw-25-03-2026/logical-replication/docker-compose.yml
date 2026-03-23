@@ -1,0 +1,65 @@
+services:
+  pg-publisher:
+    image: postgres:15
+    container_name: pg-publisher
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_db
+      PGDATA: /var/lib/postgresql/data
+    command:
+      - postgres
+      - -c
+      - listen_addresses=*
+      - -c
+      - wal_level=logical
+      - -c
+      - max_replication_slots=10
+      - -c
+      - max_wal_senders=10
+    ports:
+      - "5432:5432"
+    volumes:
+      - publisher_data:/var/lib/postgresql/data
+      - ./publisher/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d test_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - pgnet
+
+  pg-subscriber:
+    image: postgres:15
+    container_name: pg-subscriber
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_db
+      PGDATA: /var/lib/postgresql/data
+    command:
+      - postgres
+      - -c
+      - listen_addresses=*
+    ports:
+      - "5433:5432"
+    volumes:
+      - subscriber_data:/var/lib/postgresql/data
+      - ./subscriber/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d test_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    depends_on:
+      - pg-publisher
+    networks:
+      - pgnet
+
+volumes:
+  publisher_data:
+  subscriber_data:
+
+networks:
+  pgnet:

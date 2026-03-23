@@ -1,0 +1,71 @@
+services:
+  pg-primary:
+    image: postgres:15
+    container_name: pg-primary
+    environment:
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data
+    command:
+      - postgres
+      - -c
+      - listen_addresses=*
+      - -c
+      - wal_level=replica
+      - -c
+      - max_wal_senders=10
+      - -c
+      - max_replication_slots=10
+      - -c
+      - wal_keep_size=256MB
+      - -c
+      - hba_file=/etc/postgresql/pg_hba.conf
+    ports:
+      - "5432:5432"
+    volumes:
+      - primary_data:/var/lib/postgresql/data
+      - ./primary/init:/docker-entrypoint-initdb.d
+      - ./primary/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+    networks:
+      - pgnet
+
+  pg-replica-1:
+    image: postgres:15
+    container_name: pg-replica-1
+    environment:
+      PGDATA: /var/lib/postgresql/data
+      REPLICATION_SLOT: replica1_slot
+    entrypoint: ["/bin/bash", "/scripts/bootstrap-replica.sh"]
+    depends_on:
+      - pg-primary
+    ports:
+      - "5433:5432"
+    volumes:
+      - replica1_data:/var/lib/postgresql/data
+      - ./replica:/scripts
+    networks:
+      - pgnet
+
+  pg-replica-2:
+    image: postgres:15
+    container_name: pg-replica-2
+    environment:
+      PGDATA: /var/lib/postgresql/data
+      REPLICATION_SLOT: replica2_slot
+    entrypoint: ["/bin/bash", "/scripts/bootstrap-replica.sh"]
+    depends_on:
+      - pg-primary
+    ports:
+      - "5434:5432"
+    volumes:
+      - replica2_data:/var/lib/postgresql/data
+      - ./replica:/scripts
+    networks:
+      - pgnet
+
+volumes:
+  primary_data:
+  replica1_data:
+  replica2_data:
+
+networks:
+  pgnet:
