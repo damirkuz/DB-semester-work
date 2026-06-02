@@ -5,3 +5,4 @@ sem1/.DS_Store
 sem2/.DS_Store
 .DS_Store
 sem2/.env
+sem2/db/hw-queue/queue-java/target/
