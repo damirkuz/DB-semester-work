@@ -6,3 +6,6 @@ sem2/.DS_Store
 .DS_Store
 sem2/.env
 sem2/db/hw-queue/queue-java/target/
+sem2/db/hw-airflow/logs/
+sem2/db/hw-airflow/**/__pycache__/
+sem2/db/hw-airflow/**/.pytest_cache/

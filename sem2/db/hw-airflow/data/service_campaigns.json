@@ -1,0 +1,30 @@
+[
+  {
+    "campaign_code": "AIRFLOW-OIL-2026",
+    "service_name": "Замена масла",
+    "discount_percent": 12.5,
+    "valid_from": "2026-06-01",
+    "valid_to": "2026-06-30"
+  },
+  {
+    "campaign_code": "AIRFLOW-BRAKES-2026",
+    "service_name": "Диагностика тормозной системы",
+    "discount_percent": 15.0,
+    "valid_from": "2026-06-01",
+    "valid_to": "2026-07-15"
+  },
+  {
+    "campaign_code": "AIRFLOW-AC-2026",
+    "service_name": "Обслуживание кондиционера",
+    "discount_percent": 10.0,
+    "valid_from": "2026-05-15",
+    "valid_to": "2026-08-31"
+  },
+  {
+    "campaign_code": "AIRFLOW-BAD-DATE",
+    "service_name": "Некорректная акция",
+    "discount_percent": 5.0,
+    "valid_from": "2026-09-01",
+    "valid_to": "2026-08-01"
+  }
+]

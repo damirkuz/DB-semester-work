@@ -1,0 +1,7 @@
+lead_id,full_name,phone_number,tags
+L-001,Даниил Петров,+79001234567,airflow_import;fleet
+L-002,Мария Иванова,+79007654321,airflow_import;vip
+L-003,Артем Соколов,+79005550101,airflow_import;new
+L-004,Елена Кузнецова,+79005550102,airflow_import;corporate
+L-005,Павел Орлов,+79005550103,airflow_import;discount
+L-BAD,Некорректный телефон,7900bad,airflow_import
