@@ -1,0 +1,16 @@
+services:
+  mongodb:
+    image: mongo:8
+    container_name: autoservice_mongodb_hw
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo/init.js:/docker-entrypoint-initdb.d/01-init.js:ro
+      - .:/homework:ro
+
+volumes:
+  mongodb_data:
